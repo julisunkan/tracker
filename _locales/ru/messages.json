@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Блокировщик Рекламы и Приватность",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Блокирует рекламу, трекеры и всплывающие окна. Самый быстрый MV3-блокировщик, 48 000+ правил. Бесплатно.",
+    "description": "Short description (max 132 chars)"
+  }
+}

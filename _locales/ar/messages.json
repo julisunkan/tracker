@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – حاجب الإعلانات والخصوصية",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "يحجب الإعلانات وأدوات التتبع والنوافذ المنبثقة. أسرع حاجب MV3 مع 48,000+ قاعدة تصفية. مجاني ومفتوح المصدر.",
+    "description": "Short description (max 132 chars)"
+  }
+}

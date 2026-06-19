@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – 廣告攔截器與隱私保護",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "在每個網站封鎖廣告、追蹤器和彈窗。最快的MV3廣告攔截器，擁有48,000+條過濾規則。免費且開源。",
+    "description": "Short description (max 132 chars)"
+  }
+}

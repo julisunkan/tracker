@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Αποκλεισμός Διαφημίσεων & Απόρρητο",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Αποκλεισμός διαφημίσεων, ιχνηλατών και αναδυόμενων παραθύρων. Ταχύτερος αποκλειστής MV3, 48.000+ κανόνες. Δωρεάν.",
+    "description": "Short description (max 132 chars)"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Pemblokir Iklan & Privasi",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Blokir iklan, pelacak, dan pop-up di setiap situs. Pemblokir iklan MV3 tercepat, 48.000+ aturan filter. Gratis.",
+    "description": "Short description (max 132 chars)"
+  }
+}

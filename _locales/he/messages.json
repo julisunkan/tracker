@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – חוסם פרסומות ופרטיות",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "חסום פרסומות, עוקבים וחלונות קופצים בכל אתר. חוסם MV3 המהיר ביותר עם 48,000+ כללי סינון. חינמי וקוד פתוח.",
+    "description": "Short description (max 132 chars)"
+  }
+}

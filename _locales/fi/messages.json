@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Mainosten Estäjä ja Yksityisyys",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Estä mainokset, seurantalaitteet ja ponnahdusikkunat. Nopein MV3-estäjä yli 48 000 suodatussäännöllä. Ilmainen.",
+    "description": "Short description (max 132 chars)"
+  }
+}

@@ -1,0 +1,16 @@
+[
+{
+ "action": {
+  "type": "allow"
+ },
+ "condition": {
+  "initiatorDomains": [
+   "localhost",
+   "AdBlockAll.github.io"
+  ],
+  "regexFilter": "bnf3\\.js$"
+ },
+ "id": 4,
+ "priority": 30
+}
+]

@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Reklam Engelleyici ve Gizlilik",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Her sitede reklamları, izleyicileri ve pop-up'ları engelleyin. En hızlı MV3 engelleyici, 48.000+ kural. Ücretsiz.",
+    "description": "Short description (max 132 chars)"
+  }
+}

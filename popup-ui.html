@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdBlock Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ── RESET & BASE ─────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #00e5c8;
+    --accent2: #00b5ff;
+    --danger: #ff4d6d;
+    --warn: #ffb830;
+    --ok: #00e5a0;
+
+    --bg: #0d0f14;
+    --surface: #141720;
+    --surface2: #1c2030;
+    --surface3: #232840;
+    --border: rgba(255,255,255,0.07);
+    --border-accent: rgba(0,229,200,0.25);
+
+    --text: #e8ecf4;
+    --text-dim: #7a869e;
+    --text-muted: #4a5568;
+
+    --popup-opacity: 1;
+    --radius: 14px;
+    --radius-sm: 8px;
+    --shadow: 0 24px 64px rgba(0,0,0,0.6);
+    --glow: 0 0 20px rgba(0,229,200,0.15);
+  }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    width: 360px;
+    min-height: 560px;
+    overflow: hidden;
+    opacity: var(--popup-opacity);
+    transition: opacity 0.3s ease;
+    position: relative;
+    cursor: default;
+    user-select: none;
+  }
+
+  /* animated background grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── LAYOUT ────────────────────────────────────────── */
+  .popup {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    animation: fadeUp 0.35s cubic-bezier(0.22,1,0.36,1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HEADER ────────────────────────────────────────── */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px 14px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.35s 0.05s both;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 16px rgba(0,229,200,0.3);
+    flex-shrink: 0;
+  }
+
+  .logo-icon svg { width: 18px; height: 18px; }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .logo-name {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    color: var(--text);
+  }
+
+  .logo-sub {
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--text-dim);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .icon-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .icon-btn:hover {
+    background: var(--surface3);
+    color: var(--text);
+    border-color: var(--border-accent);
+  }
+
+  .icon-btn svg { width: 14px; height: 14px; }
+
+  /* ── MAIN TOGGLE SECTION ───────────────────────────── */
+  .hero {
+    padding: 20px 18px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.35s 0.1s both;
+  }
+
+  .hero-left { display: flex; flex-direction: column; gap: 4px; }
+
+  .hero-status {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  .hero-domain {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Power toggle */
+  .power-ring {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .power-ring svg {
+    width: 64px;
+    height: 64px;
+    transform: rotate(-90deg);
+  }
+
+  .power-ring .ring-bg {
+    fill: none;
+    stroke: var(--surface3);
+    stroke-width: 3;
+  }
+
+  .power-ring .ring-prog {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 163;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1),
+                stroke 0.3s ease;
+    filter: drop-shadow(0 0 6px var(--accent));
+  }
+
+  .power-ring.off .ring-prog {
+    stroke: var(--text-muted);
+    stroke-dashoffset: 163;
+    filter: none;
+  }
+
+  .power-btn {
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .power-btn:hover { background: var(--surface3); }
+  .power-btn svg { width: 22px; height: 22px; }
+  .power-ring .power-icon { color: var(--accent); transition: color 0.3s; }
+  .power-ring.off .power-icon { color: var(--text-muted); }
+
+  /* ── COUNTER STRIP ─────────────────────────────────── */
+  .counter-strip {
+    display: flex;
+    padding: 12px 18px;
+    gap: 1px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.35s 0.15s both;
+  }
+
+  .stat-block {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 8px 4px;
+    border-radius: 10px;
+    background: var(--surface);
+    cursor: default;
+    transition: background 0.18s;
+  }
+
+  .stat-block:hover { background: var(--surface2); }
+
+  .stat-block + .stat-block {
+    margin-left: 6px;
+  }
+
+  .stat-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: -1px;
+    transition: all 0.3s;
+  }
+
+  .stat-val.accent { color: var(--accent); }
+  .stat-val.warn   { color: var(--warn); }
+  .stat-val.ok     { color: var(--ok); }
+
+  .stat-label {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── FILTERING MODE ────────────────────────────────── */
+  .section {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.35s 0.2s both;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Mode pills */
+  .mode-pills {
+    display: flex;
+    gap: 5px;
+  }
+
+  .mode-pill {
+    flex: 1;
+    padding: 8px 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .mode-pill span {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 3px;
+  }
+
+  .mode-pill:hover { border-color: var(--border-accent); background: var(--surface2); }
+
+  .mode-pill.active {
+    background: linear-gradient(135deg, rgba(0,229,200,0.15), rgba(0,181,255,0.1));
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 12px rgba(0,229,200,0.1);
+  }
+
+  /* ── TOGGLE ROWS ───────────────────────────────────── */
+  .toggles-section {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeUp 0.35s 0.25s both;
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+
+  .toggle-row:hover { background: var(--surface2); border-color: var(--border-accent); }
+
+  .toggle-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .toggle-ico {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .toggle-ico.cyan  { background: rgba(0,229,200,0.12); }
+  .toggle-ico.blue  { background: rgba(0,181,255,0.12); }
+  .toggle-ico.amber { background: rgba(255,184,48,0.12); }
+  .toggle-ico.red   { background: rgba(255,77,109,0.12); }
+
+  .toggle-texts { display: flex; flex-direction: column; gap: 1px; }
+
+  .toggle-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.2px;
+  }
+
+  .toggle-desc {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Switch */
+  .switch {
+    position: relative;
+    width: 40px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  .switch input { display: none; }
+
+  .switch-track {
+    position: absolute;
+    inset: 0;
+    border-radius: 11px;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    cursor: pointer;
+  }
+
+  .switch-track::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  }
+
+  .switch input:checked + .switch-track {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-color: transparent;
+    box-shadow: 0 0 12px rgba(0,229,200,0.3);
+  }
+
+  .switch input:checked + .switch-track::after {
+    transform: translateX(18px);
+    background: #fff;
+  }
+
+  /* ── SLIDERS SECTION ───────────────────────────────── */
+  .sliders-section {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    animation: fadeUp 0.35s 0.3s both;
+  }
+
+  .slider-row { display: flex; flex-direction: column; gap: 6px; }
+
+  .slider-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .slider-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .slider-title-ico { font-size: 13px; }
+
+  .slider-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface3);
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(0,229,200,0.5);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 14px rgba(0,229,200,0.7);
+  }
+
+  /* track fill simulation */
+  input[type="range"].opacity-range { accent-color: var(--accent); }
+
+  /* ── COLOR PICKER ──────────────────────────────────── */
+  .colors-section {
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.35s 0.35s both;
+  }
+
+  .color-grid {
+    display: flex;
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .color-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .color-swatch:hover { transform: scale(1.12); }
+
+  .color-swatch.active {
+    border-color: #fff;
+    transform: scale(1.12);
+    box-shadow: 0 0 12px rgba(255,255,255,0.25);
+  }
+
+  .color-swatch.active::after {
+    content: '✓';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .custom-color {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px dashed var(--border);
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    color: var(--text-dim);
+    transition: all 0.2s;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .custom-color:hover { border-color: var(--accent); color: var(--accent); }
+
+  .custom-color input[type="color"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* theme chips */
+  .theme-chips {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+  }
+
+  .theme-chip {
+    flex: 1;
+    padding: 5px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    text-align: center;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .theme-chip:hover { border-color: var(--border-accent); color: var(--text-dim); }
+  .theme-chip.active { border-color: var(--accent); color: var(--accent); background: rgba(0,229,200,0.07); }
+
+  /* ── TOOLS GRID ────────────────────────────────────── */
+  .tools-section {
+    padding: 14px 18px;
+    animation: fadeUp 0.35s 0.4s both;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    margin-top: 2px;
+  }
+
+  .tool-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 4px;
+    border-radius: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tool-btn:hover {
+    background: var(--surface2);
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+
+  .tool-ico {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .tool-name {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    line-height: 1.2;
+  }
+
+  /* ── FOOTER ────────────────────────────────────────── */
+  .footer {
+    padding: 10px 18px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    margin-top: auto;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .footer-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.3px;
+  }
+
+  .version-tag {
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--text-dim);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 4px;
+  }
+
+  /* ── NOTIFICATIONS ─────────────────────────────────── */
+  .toast {
+    position: fixed;
+    bottom: 64px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--surface3);
+    border: 1px solid var(--border-accent);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    opacity: 0;
+    transition: all 0.25s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 100;
+    box-shadow: var(--glow);
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ── SCROLLABLE CONTENT ────────────────────────────── */
+  .popup-body {
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface3) transparent;
+  }
+
+  .popup-body::-webkit-scrollbar { width: 4px; }
+  .popup-body::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 2px; }
+
+  /* number animation */
+  @keyframes countUp {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .count-anim { animation: countUp 0.4s ease both; }
+
+  /* disabled overlay */
+  .popup-body.disabled { opacity: 0.4; pointer-events: none; filter: grayscale(0.6); }
+
+  /* glow ring on active */
+  .power-ring.active .ring-prog {
+    animation: ringPulse 3s infinite;
+  }
+
+  @keyframes ringPulse {
+    0%, 100% { filter: drop-shadow(0 0 4px var(--accent)); }
+    50%       { filter: drop-shadow(0 0 10px var(--accent)); }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="popup" id="popup">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0d0f14" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L3 7l1.5 9L12 22l7.5-6L21 7z"/>
+          <line x1="12" y1="2" x2="12" y2="22"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-name">AdBlock Pro</span>
+        <span class="logo-sub">Protection Active</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" title="Dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </button>
+      <button class="icon-btn" title="Report Issue">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO — Power + Domain -->
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-status" id="statusText">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusLabel">Blocking Active</span>
+      </div>
+      <div class="hero-domain" id="domainText">example.com</div>
+    </div>
+    <div class="power-ring active" id="powerRing">
+      <svg viewBox="0 0 64 64">
+        <circle class="ring-bg" cx="32" cy="32" r="26"/>
+        <circle class="ring-prog" id="ringProgress" cx="32" cy="32" r="26"/>
+      </svg>
+      <button class="power-btn" title="Toggle blocking">
+        <svg class="power-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <path d="M18.36 6.64a9 9 0 1 1-12.73 0"/>
+          <line x1="12" y1="2" x2="12" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- COUNTER STRIP -->
+  <div class="counter-strip">
+    <div class="stat-block">
+      <div class="stat-val accent" id="adsBlockedVal">0</div>
+      <div class="stat-label">Blocked</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-val ok" id="cookiesVal">0</div>
+      <div class="stat-label">Cookies</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-val warn" id="trackersVal">0</div>
+      <div class="stat-label">Trackers</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-val" id="rulesVal">0</div>
+      <div class="stat-label">Rules</div>
+    </div>
+  </div>
+
+  <div class="popup-body" id="popupBody">
+
+    <!-- FILTERING MODE -->
+    <div class="section">
+      <div class="section-label">Filtering Mode</div>
+      <div class="mode-pills">
+        <div class="mode-pill" data-level="0">
+          <span>⛔</span>Off
+        </div>
+        <div class="mode-pill active" data-level="1">
+          <span>🛡️</span>Basic
+        </div>
+        <div class="mode-pill" data-level="2">
+          <span>⚡</span>Optimal
+        </div>
+        <div class="mode-pill" data-level="3">
+          <span>🔒</span>Strict
+        </div>
+      </div>
+    </div>
+
+    <!-- TOGGLES -->
+    <div class="toggles-section">
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-ico cyan">🔄</div>
+          <div class="toggle-texts">
+            <div class="toggle-name">Auto Reload</div>
+            <div class="toggle-desc">Reload page on mode change</div>
+          </div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="autoReload" checked>
+          <div class="switch-track"></div>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-ico amber">🍪</div>
+          <div class="toggle-texts">
+            <div class="toggle-name">Auto-Accept Cookies</div>
+            <div class="toggle-desc">Dismiss cookie banners</div>
+          </div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="cookieAccept" checked>
+          <div class="switch-track"></div>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-ico blue">🔢</div>
+          <div class="toggle-texts">
+            <div class="toggle-name">Show Block Count</div>
+            <div class="toggle-desc">Display counter on icon</div>
+          </div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="showCount" checked>
+          <div class="switch-track"></div>
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-ico red">🚫</div>
+          <div class="toggle-texts">
+            <div class="toggle-name">Strict Block Mode</div>
+            <div class="toggle-desc">Block all network requests</div>
+          </div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="strictBlock">
+          <div class="switch-track"></div>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- SLIDERS -->
+    <div class="sliders-section">
+
+      <div class="slider-row">
+        <div class="slider-header">
+          <div class="slider-title">
+            <span class="slider-title-ico">💧</span>
+            Popup Transparency
+          </div>
+          <div class="slider-val" id="opacityLabel">100%</div>
+        </div>
+        <input type="range" id="opacitySlider" min="30" max="100" value="100"
+              >
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-header">
+          <div class="slider-title">
+            <span class="slider-title-ico">🎯</span>
+            Block Aggressiveness
+          </div>
+          <div class="slider-val" id="aggrLabel">70%</div>
+        </div>
+        <input type="range" id="aggrSlider" min="0" max="100" value="70"
+              >
+      </div>
+
+    </div>
+
+    <!-- COLOR / THEME -->
+    <div class="colors-section">
+      <div class="section-label">Accent Color</div>
+      <div class="color-grid">
+        <div class="color-swatch active" style="background:#00e5c8" data-color="#00e5c8,#00b5ff"></div>
+        <div class="color-swatch" style="background:#6c63ff" data-color="#6c63ff,#a855f7"></div>
+        <div class="color-swatch" style="background:#ff4d6d" data-color="#ff4d6d,#ff8a80"></div>
+        <div class="color-swatch" style="background:#ffb830" data-color="#ffb830,#ff8f00"></div>
+        <div class="color-swatch" style="background:#00e5a0" data-color="#00e5a0,#00c4ff"></div>
+        <div class="color-swatch" style="background:#ff6b35" data-color="#ff6b35,#ffd23f"></div>
+        <div class="color-swatch" style="background:#e91e8c" data-color="#e91e8c,#ff5722"></div>
+        <div class="custom-color" title="Custom color">
+          ＋
+          <input type="color" id="customColor" value="#00e5c8">
+        </div>
+      </div>
+
+      <div class="theme-chips">
+        <div class="theme-chip active" data-theme="dark">Dark</div>
+        <div class="theme-chip" data-theme="midnight">Midnight</div>
+        <div class="theme-chip" data-theme="slate">Slate</div>
+        <div class="theme-chip" data-theme="amoled">AMOLED</div>
+        <div class="theme-chip" data-theme="glass">Glass</div>
+      </div>
+    </div>
+
+    <!-- TOOLS -->
+    <div class="tools-section">
+      <div class="section-label">Tools</div>
+      <div class="tools-grid">
+        <div class="tool-btn" title="Element Zapper" data-tool="zapper">
+          <div class="tool-ico">⚡</div>
+          <div class="tool-name">Zapper</div>
+        </div>
+        <div class="tool-btn" title="Element Picker" data-tool="picker">
+          <div class="tool-ico">🎯</div>
+          <div class="tool-name">Picker</div>
+        </div>
+        <div class="tool-btn" title="Remove Custom Filters" data-tool="unpicker">
+          <div class="tool-ico">🗑️</div>
+          <div class="tool-name">Unpick</div>
+        </div>
+        <div class="tool-btn" title="Filter Lists" data-tool="filters">
+          <div class="tool-ico">📋</div>
+          <div class="tool-name">Filters</div>
+        </div>
+        <div class="tool-btn" title="YouTube Ad Block" data-tool="youtube">
+          <div class="tool-ico">▶️</div>
+          <div class="tool-name">YouTube</div>
+        </div>
+        <div class="tool-btn" title="Privacy Protection" data-tool="privacy">
+          <div class="tool-ico">🔐</div>
+          <div class="tool-name">Privacy</div>
+        </div>
+        <div class="tool-btn" title="Detailed Stats" data-tool="stats">
+          <div class="tool-ico">📊</div>
+          <div class="tool-name">Stats</div>
+        </div>
+        <div class="tool-btn" title="Backup & Restore">
+          <div class="tool-ico">💾</div>
+          <div class="tool-name">Backup</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /popup-body -->
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-left">
+      <div class="footer-badge">AdBlock Pro</div>
+      <div class="version-tag">v3.2.1</div>
+    </div>
+    <div class="footer-links">
+      <button class="icon-btn" title="Matched Rules">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+        </svg>
+      </button>
+      <button class="icon-btn" title="Developer Mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+        </svg>
+      </button>
+    </div>
+  </footer>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="js/popup.js"></script>
+</body>
+</html>

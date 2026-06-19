@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdBlock Pro – Options</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --accent:  #00e5c8;
+  --accent2: #00b5ff;
+  --danger:  #ff4d6d;
+  --warn:    #ffb830;
+  --ok:      #00e5a0;
+  --bg:      #0d0f14;
+  --surface: #141720;
+  --surface2:#1c2030;
+  --surface3:#232840;
+  --border:  rgba(255,255,255,0.07);
+  --border-accent: rgba(0,229,200,0.25);
+  --text:    #e8ecf4;
+  --text-dim:#7a869e;
+  --text-muted:#4a5568;
+  --radius:  14px;
+  --radius-sm:8px;
+  --shadow:  0 24px 64px rgba(0,0,0,0.6);
+  --glow:    0 0 20px rgba(0,229,200,0.15);
+}
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  animation: fadeIn .3s ease both;
+}
+
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+/* ── LAYOUT ── */
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.logo-icon {
+  width: 34px; height: 34px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 16px rgba(0,229,200,0.3);
+}
+
+.logo-icon svg { width: 18px; height: 18px; }
+
+.logo-name { font-size: 15px; font-weight: 700; letter-spacing: -.3px; }
+.logo-ver  { font-size: 10px; color: var(--text-dim); font-family: 'DM Mono', monospace; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 20px;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all .15s;
+  color: var(--text-dim);
+  font-size: 13px; font-weight: 500;
+  border-left: 3px solid transparent;
+  user-select: none;
+}
+
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+.nav-item.active {
+  color: var(--accent);
+  background: rgba(0,229,200,.07);
+  border-left-color: var(--accent);
+}
+
+.nav-icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 20px 0;
+  border-top: 1px solid var(--border);
+}
+
+.sidebar-footer a {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  text-decoration: none;
+  margin-bottom: 4px;
+  transition: color .15s;
+}
+.sidebar-footer a:hover { color: var(--text-dim); }
+
+/* ── MAIN ── */
+.main {
+  flex: 1;
+  padding: 32px 40px;
+  max-width: 860px;
+}
+
+.pane { display: none; }
+.pane.active { display: block; }
+
+.pane-title {
+  font-size: 22px; font-weight: 800;
+  letter-spacing: -.5px;
+  margin-bottom: 6px;
+}
+
+.pane-sub {
+  font-size: 13px; color: var(--text-dim);
+  margin-bottom: 28px;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+
+.card-title {
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+
+/* ── TOGGLE ROW ── */
+.toggle-row {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background .15s;
+  border-radius: var(--radius-sm);
+  padding-left: 8px; padding-right: 8px;
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-row:hover { background: var(--surface2); }
+
+.toggle-info { flex: 1; }
+.toggle-label { font-size: 13px; font-weight: 600; }
+.toggle-desc  { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+.switch {
+  position: relative; width: 40px; height: 22px; flex-shrink: 0; margin-left: 12px;
+}
+.switch input { opacity: 0; width: 0; height: 0; }
+.switch-track {
+  position: absolute; inset: 0;
+  background: var(--surface3);
+  border-radius: 22px;
+  transition: background .2s;
+  border: 1px solid var(--border);
+}
+.switch input:checked + .switch-track { background: var(--accent); border-color: var(--accent); }
+.switch-track::after {
+  content: '';
+  position: absolute; top: 2px; left: 2px;
+  width: 16px; height: 16px;
+  background: #fff; border-radius: 50%;
+  transition: transform .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+.switch input:checked + .switch-track::after { transform: translateX(18px); }
+
+/* ── FILTER LIST TABLE ── */
+.filter-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.filter-table th {
+  text-align: left;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .8px; text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-table td {
+  padding: 10px 10px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.filter-table tr:last-child td { border-bottom: none; }
+.filter-table tr:hover td { background: var(--surface2); }
+
+.filter-name { font-weight: 600; font-size: 13px; }
+.filter-count { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); }
+
+/* ── STATS GRID ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-card .val {
+  font-size: 28px; font-weight: 800;
+  font-family: 'DM Mono', monospace;
+  color: var(--accent);
+  letter-spacing: -1px;
+}
+
+.stat-card .lbl {
+  font-size: 11px; color: var(--text-dim);
+  margin-top: 4px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+
+/* ── CUSTOM FILTERS TEXTAREA ── */
+.custom-textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  padding: 12px;
+  resize: vertical;
+  min-height: 140px;
+  outline: none;
+  transition: border-color .15s;
+}
+.custom-textarea:focus { border-color: var(--border-accent); }
+
+/* ── BUTTONS ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 18px;
+  border-radius: var(--radius-sm);
+  font-family: 'Syne', sans-serif;
+  font-size: 13px; font-weight: 600;
+  border: none; cursor: pointer;
+  transition: all .15s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #000;
+}
+.btn-primary:hover { opacity: .88; }
+
+.btn-ghost {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-ghost:hover { background: var(--surface3); }
+
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger:hover { opacity: .85; }
+
+.btn-row { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+
+/* ── MODE SELECTOR ── */
+.mode-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.mode-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .18s;
+}
+
+.mode-card:hover { border-color: var(--border-accent); }
+.mode-card.active {
+  border-color: var(--accent);
+  background: rgba(0,229,200,.08);
+  box-shadow: var(--glow);
+}
+
+.mode-card .mode-icon { font-size: 22px; margin-bottom: 6px; }
+.mode-card .mode-name { font-size: 12px; font-weight: 700; }
+.mode-card .mode-desc { font-size: 10px; color: var(--text-dim); margin-top: 3px; }
+
+/* ── BADGE ── */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+.badge-on  { background: rgba(0,229,160,.15); color: var(--ok); }
+.badge-off { background: rgba(122,134,158,.1); color: var(--text-dim); }
+
+/* ── ABOUT ── */
+.about-logo {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 24px;
+}
+
+.about-logo-icon {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 24px rgba(0,229,200,0.3);
+}
+
+.about-logo-icon svg { width: 28px; height: 28px; }
+.about-name { font-size: 26px; font-weight: 800; letter-spacing: -.5px; }
+.about-ver  { font-size: 13px; color: var(--text-dim); font-family: 'DM Mono', monospace; }
+
+.about-links { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--surface3);
+  border: 1px solid var(--border-accent);
+  color: var(--text);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 500;
+  opacity: 0; transform: translateY(8px);
+  transition: all .2s;
+  pointer-events: none;
+  z-index: 999;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+
+/* ── LOADING ── */
+.loading-row {
+  text-align: center;
+  padding: 24px;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-name">AdBlock Pro</div>
+        <div class="logo-ver">v3.2.1</div>
+      </div>
+    </div>
+
+    <div class="nav-item active" data-pane="general" id="nav-general">
+      <span class="nav-icon">⚙️</span> General
+    </div>
+    <div class="nav-item" data-pane="filters">
+      <span class="nav-icon">📋</span> Filter Lists
+    </div>
+    <div class="nav-item" data-pane="custom">
+      <span class="nav-icon">✏️</span> Custom Filters
+    </div>
+    <div class="nav-item" data-pane="stats">
+      <span class="nav-icon">📊</span> Statistics
+    </div>
+    <div class="nav-item" data-pane="backup">
+      <span class="nav-icon">💾</span> Backup / Restore
+    </div>
+    <div class="nav-item" data-pane="about">
+      <span class="nav-icon">ℹ️</span> About
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="https://adblockall.com" target="_blank">🌐 adblockall.com</a>
+      <a href="https://adblockall.com/privacy" target="_blank">🔒 Privacy Policy</a>
+      <a href="https://adblockall.com/support" target="_blank">💬 Support</a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- ── GENERAL ── -->
+    <div class="pane active" id="pane-general">
+      <div class="pane-title">General Settings</div>
+      <div class="pane-sub">Configure the core behavior of the extension.</div>
+
+      <!-- Mod filtrare -->
+      <div class="card">
+        <div class="card-title">Default Filtering Mode</div>
+        <div class="mode-grid">
+          <div class="mode-card" data-level="0">
+            <div class="mode-icon">🔴</div>
+            <div class="mode-name">Off</div>
+            <div class="mode-desc">No blocking</div>
+          </div>
+          <div class="mode-card active" data-level="1">
+            <div class="mode-icon">🟡</div>
+            <div class="mode-name">Basic</div>
+            <div class="mode-desc">Basic ads</div>
+          </div>
+          <div class="mode-card" data-level="2">
+            <div class="mode-icon">🟢</div>
+            <div class="mode-name">Optimal</div>
+            <div class="mode-desc">Recommended</div>
+          </div>
+          <div class="mode-card" data-level="3">
+            <div class="mode-icon">🔵</div>
+            <div class="mode-name">Strict</div>
+            <div class="mode-desc">Maximum blocking</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toggleuri principale -->
+      <div class="card">
+        <div class="card-title">Behavior</div>
+
+        <label class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Auto Reload</div>
+            <div class="toggle-desc">Reload page when changing filtering mode</div>
+          </div>
+          <label class="switch" onclick.stop>
+            <input type="checkbox" id="autoReload" class="toggle-cb" checked>
+            <span class="switch-track"></span>
+          </label>
+        </label>
+
+        <label class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Badge Counter</div>
+            <div class="toggle-desc">Show blocked count on the extension icon</div>
+          </div>
+          <label class="switch" onclick.stop>
+            <input type="checkbox" id="showBlockedCount" class="toggle-cb" checked>
+            <span class="switch-track"></span>
+          </label>
+        </label>
+
+        <label class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Strict Mode</div>
+            <div class="toggle-desc">Block content that may cause site breakage</div>
+          </div>
+          <label class="switch" onclick.stop>
+            <input type="checkbox" id="strictBlockMode" class="toggle-cb">
+            <span class="switch-track"></span>
+          </label>
+        </label>
+
+        <label class="toggle-row">
+          <div class="toggle-info">
+            <div class="toggle-label">Developer Mode</div>
+            <div class="toggle-desc">Enable advanced debugging tools</div>
+          </div>
+          <label class="switch" onclick.stop>
+            <input type="checkbox" id="developerMode" class="toggle-cb">
+            <span class="switch-track"></span>
+          </label>
+        </label>
+      </div>
+    </div>
+
+    <!-- ── FILTER LISTS ── -->
+    <div class="pane" id="pane-filters">
+      <div class="pane-title">Filter Lists</div>
+      <div class="pane-sub">Enable or disable blocking rule sets.</div>
+
+      <div class="card">
+        <div class="card-title">Main Lists</div>
+        <table class="filter-table" id="filterTable">
+          <thead>
+            <tr>
+              <th>Active</th>
+              <th>List</th>
+              <th>Rules</th>
+            </tr>
+          </thead>
+          <tbody id="filterBody">
+            <tr><td colspan="3" class="loading-row">Se încarcă listele…</td></tr>
+          </tbody>
+        </table>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="applyFiltersBtn">💾 Apply Changes</button>
+          <button class="btn btn-ghost" id="refreshFiltersBtn">🔄 Refresh</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CUSTOM FILTERS ── -->
+    <div class="pane" id="pane-custom">
+      <div class="pane-title">Custom Filters</div>
+      <div class="pane-sub">Add your own rules in uBlock/AdBlock format.</div>
+
+      <div class="card">
+        <div class="card-title">Your Rules</div>
+        <textarea class="custom-textarea" id="customFilters"
+          placeholder="! Comment&#10;||ads.example.com^&#10;##.ad-banner&#10;example.com##.popup"></textarea>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="saveCustomBtn">💾 Save</button>
+          <button class="btn btn-ghost" id="loadCustomBtn">🔄 Reload</button>
+          <button class="btn btn-danger" id="clearCustomBtn">🗑️ Clear All</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Quick Syntax</div>
+        <table class="filter-table">
+          <tr><td class="filter-name"><code>||ads.example.com^</code></td><td class="filter-count">Block domain</td></tr>
+          <tr><td class="filter-name"><code>##.ad-container</code></td><td class="filter-count">Hide CSS element</td></tr>
+          <tr><td class="filter-name"><code>@@||site.com^</code></td><td class="filter-count">Whitelist domain</td></tr>
+          <tr><td class="filter-name"><code>! comentariu</code></td><td class="filter-count">Ignored line</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── STATS ── -->
+    <div class="pane" id="pane-stats">
+      <div class="pane-title">Statistics</div>
+      <div class="pane-sub">View your blocker activity.</div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="val accent" id="statAds">–</div>
+          <div class="lbl">Ads Blocked</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" style="color:var(--ok)" id="statTrackers">–</div>
+          <div class="lbl">Trackers Blocked</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" style="color:var(--warn)" id="statCookies">–</div>
+          <div class="lbl">Cookies Blocked</div>
+        </div>
+        <div class="stat-card">
+          <div class="val" style="color:var(--accent2)" id="statRules">48,392</div>
+          <div class="lbl">Active Rules</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Actions</div>
+        <div class="btn-row">
+          <button class="btn btn-ghost" id="refreshStatsBtn">🔄 Refresh</button>
+          <button class="btn btn-danger" id="resetStatsBtn">🗑️ Reset Counters</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BACKUP ── -->
+    <div class="pane" id="pane-backup">
+      <div class="pane-title">Backup &amp; Restore</div>
+      <div class="pane-sub">Export or import the full extension configuration.</div>
+
+      <div class="card">
+        <div class="card-title">Export</div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:14px;">
+          Save toate setările, listele activate și filtrele personalizate într-un fișier JSON.
+        </p>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="exportBtn">📤 Export Backup</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Import</div>
+        <p style="font-size:13px; color:var(--text-dim); margin-bottom:14px;">
+          Restore a previously saved configuration. Current settings will be overwritten.
+        </p>
+        <div class="btn-row">
+          <label class="btn btn-ghost" style="cursor:pointer;">
+            📥 Import Backup
+            <input type="file" id="importFile" accept=".json" style="display:none">
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ABOUT ── -->
+    <div class="pane" id="pane-about">
+      <div class="about-logo">
+        <div class="about-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="about-name">AdBlock Pro</div>
+          <div class="about-ver">versiunea 3.2.1 · Manifest V3</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Information</div>
+        <table class="filter-table">
+          <tr><td class="filter-name">Author</td><td class="filter-count">AdBlock All Team</td></tr>
+          <tr><td class="filter-name">Website</td><td><a href="https://adblockall.com" target="_blank" style="color:var(--accent)">adblockall.com</a></td></tr>
+          <tr><td class="filter-name">License</td><td class="filter-count">GPL-3.0</td></tr>
+          <tr><td class="filter-name">Filter engine</td><td class="filter-count">Declarative Net Request (MV3)</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Useful Links</div>
+        <div class="about-links">
+          <a href="https://adblockall.com/support" target="_blank" class="btn btn-ghost">💬 Support</a>
+          <a href="https://adblockall.com/privacy" target="_blank" class="btn btn-ghost">🔒 Privacy Policy</a>
+          <a href="https://github.com" target="_blank" class="btn btn-ghost">🐙 GitHub</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/options.js"></script>
+</body>
+</html>

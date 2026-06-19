@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – 広告ブロッカー & プライバシー保護",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "すべてのサイトで広告・トラッカー・ポップアップをブロック。48,000以上のフィルタールール。最速MV3広告ブロッカー。無料。",
+    "description": "Short description (max 132 chars)"
+  }
+}

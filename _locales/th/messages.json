@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – ตัวบล็อกโฆษณาและความเป็นส่วนตัว",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "บล็อกโฆษณา ตัวติดตาม และป๊อปอัปบนทุกเว็บไซต์ ตัวบล็อก MV3 ที่เร็วที่สุด 48,000+ กฎกรอง ฟรีและโอเพนซอร์ส",
+    "description": "Short description (max 132 chars)"
+  }
+}

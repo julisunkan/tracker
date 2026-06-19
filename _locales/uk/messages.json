@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Блокувальник Реклами та Конфіденційність",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Блокує рекламу, трекери та спливаючі вікна. Найшвидший MV3-блокувальник, 48 000+ правил. Безкоштовно.",
+    "description": "Short description (max 132 chars)"
+  }
+}

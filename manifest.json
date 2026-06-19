@@ -1,0 +1,238 @@
+{
+"update_url": "https://clients2.google.com/service/update2/crx",
+
+  "manifest_version": 3,
+  "name": "__MSG_appName__",
+  "version": "1.0.0",
+  "description": "__MSG_appDescription__",
+  "author": "AdBlock All Team",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup-ui.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    },
+    "default_title": "AdBlock Pro"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "js/background.bundle.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/scripting/css-api.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true,
+      "match_origin_as_fallback": false
+    }
+  ],
+  "permissions": [
+    "scripting",
+    "storage",
+    "tabs",
+    "webNavigation",
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "declarativeNetRequestWithHostAccess",
+    "commands"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+A"
+      },
+      "description": "Toggle AdBlock Pro popup"
+    }
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "adblock-filters",
+        "enabled": true,
+        "path": "rulesets/main/adblock-filters.json"
+      },
+      {
+        "id": "adblock-badware",
+        "enabled": true,
+        "path": "rulesets/main/adblock-badware.json"
+      },
+      {
+        "id": "easylist",
+        "enabled": true,
+        "path": "rulesets/main/easylist.json"
+      },
+      {
+        "id": "easyprivacy",
+        "enabled": true,
+        "path": "rulesets/main/easyprivacy.json"
+      },
+      {
+        "id": "adguard-mobile",
+        "enabled": false,
+        "path": "rulesets/main/adguard-mobile.json"
+      },
+      {
+        "id": "adguard-spyware-url",
+        "enabled": false,
+        "path": "rulesets/main/adguard-spyware-url.json"
+      },
+      {
+        "id": "annoyances-cookies",
+        "enabled": false,
+        "path": "rulesets/main/annoyances-cookies.json"
+      },
+      {
+        "id": "annoyances-notifications",
+        "enabled": false,
+        "path": "rulesets/main/annoyances-notifications.json"
+      },
+      {
+        "id": "annoyances-others",
+        "enabled": false,
+        "path": "rulesets/main/annoyances-others.json"
+      },
+      {
+        "id": "annoyances-overlays",
+        "enabled": false,
+        "path": "rulesets/main/annoyances-overlays.json"
+      },
+      {
+        "id": "annoyances-social",
+        "enabled": false,
+        "path": "rulesets/main/annoyances-social.json"
+      },
+      {
+        "id": "annoyances-widgets",
+        "enabled": false,
+        "path": "rulesets/main/annoyances-widgets.json"
+      },
+      {
+        "id": "annoyances-ai",
+        "enabled": false,
+        "path": "rulesets/main/annoyances-ai.json"
+      },
+      {
+        "id": "pgl",
+        "enabled": false,
+        "path": "rulesets/main/pgl.json"
+      },
+      {
+        "id": "urlhaus-full",
+        "enabled": false,
+        "path": "rulesets/main/urlhaus-full.json"
+      },
+      {
+        "id": "block-lan",
+        "enabled": false,
+        "path": "rulesets/main/block-lan.json"
+      },
+      {
+        "id": "dpollock-0",
+        "enabled": false,
+        "path": "rulesets/main/dpollock-0.json"
+      },
+      {
+        "id": "rou-1",
+        "enabled": false,
+        "path": "rulesets/main/rou-1.json"
+      },
+      {
+        "id": "rus-0",
+        "enabled": false,
+        "path": "rulesets/main/rus-0.json"
+      },
+      {
+        "id": "deu-0",
+        "enabled": false,
+        "path": "rulesets/main/deu-0.json"
+      },
+      {
+        "id": "fra-0",
+        "enabled": false,
+        "path": "rulesets/main/fra-0.json"
+      },
+      {
+        "id": "spa-0",
+        "enabled": false,
+        "path": "rulesets/main/spa-0.json"
+      },
+      {
+        "id": "chn-0",
+        "enabled": false,
+        "path": "rulesets/main/chn-0.json"
+      },
+      {
+        "id": "jpn-1",
+        "enabled": false,
+        "path": "rulesets/main/jpn-1.json"
+      },
+      {
+        "id": "kor-1",
+        "enabled": false,
+        "path": "rulesets/main/kor-1.json"
+      },
+      {
+        "id": "pol-0",
+        "enabled": false,
+        "path": "rulesets/main/pol-0.json"
+      },
+      {
+        "id": "ita-0",
+        "enabled": false,
+        "path": "rulesets/main/ita-0.json"
+      },
+      {
+        "id": "spa-1",
+        "enabled": false,
+        "path": "rulesets/main/spa-1.json"
+      },
+      {
+        "id": "adblock-experimental",
+        "enabled": false,
+        "path": "rulesets/main/adblock-experimental.json"
+      },
+      {
+        "id": "adblock-tests",
+        "enabled": false,
+        "path": "rulesets/main/adblock-tests.json"
+      }
+    ]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "js/scripting/*.js",
+        "rulesets/scripting/generic/*.js",
+        "rulesets/scripting/generichigh/*.css",
+        "rulesets/scripting/procedural/*.js",
+        "rulesets/scripting/procedural/*.json",
+        "rulesets/scripting/scriptlet/main/*.js",
+        "rulesets/scripting/scriptlet/isolated/*.js",
+        "rulesets/scripting/specific/*.js",
+        "rulesets/scripting/specific/*.json"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "default_locale": "en"
+}

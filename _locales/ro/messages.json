@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Blocator Reclame și Confidențialitate",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Blochează reclame, trackere și pop-up-uri. Cel mai rapid blocator MV3, 48.000+ reguli. Gratuit și open source.",
+    "description": "Short description (max 132 chars)"
+  }
+}

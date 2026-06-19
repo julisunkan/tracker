@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Hirdetésblokkoló és Adatvédelem",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Blokkolja a hirdetéseket, nyomkövetőket és felugró ablakokat. Leggyorsabb MV3 blokkoló, 48 000+ szabály. Ingyenes.",
+    "description": "Short description (max 132 chars)"
+  }
+}

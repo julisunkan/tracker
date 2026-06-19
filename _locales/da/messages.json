@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Annoncebloker og Privatliv",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Bloker annoncer, sporere og pop-ups. Hurtigste MV3-annoncebloker med 48.000+ filterregler. Gratis og open source.",
+    "description": "Short description (max 132 chars)"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "AdBlock Pro – Chặn Quảng Cáo và Bảo Mật",
+    "description": "Extension name for Chrome Web Store"
+  },
+  "appDescription": {
+    "message": "Chặn quảng cáo, trình theo dõi và cửa sổ bật lên. Trình chặn MV3 nhanh nhất, 48.000+ quy tắc lọc. Miễn phí.",
+    "description": "Short description (max 132 chars)"
+  }
+}
