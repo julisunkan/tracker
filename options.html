@@ -9,24 +9,24 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --accent:  #00e5c8;
-  --accent2: #00b5ff;
-  --danger:  #ff4d6d;
-  --warn:    #ffb830;
-  --ok:      #00e5a0;
-  --bg:      #0d0f14;
-  --surface: #141720;
-  --surface2:#1c2030;
-  --surface3:#232840;
-  --border:  rgba(255,255,255,0.07);
-  --border-accent: rgba(0,229,200,0.25);
-  --text:    #e8ecf4;
-  --text-dim:#7a869e;
-  --text-muted:#4a5568;
+  --accent:  #e63946;
+  --accent2: #2b6cb0;
+  --danger:  #cc2936;
+  --warn:    #f6c90e;
+  --ok:      #c9a96e;
+  --bg:      #1a0e08;
+  --surface: #231408;
+  --surface2:#2e1a0e;
+  --surface3:#3d2210;
+  --border:  rgba(246,201,14,0.09);
+  --border-accent: rgba(230,57,70,0.35);
+  --text:    #f5e6d3;
+  --text-dim:#b8896a;
+  --text-muted:#6b4c35;
   --radius:  14px;
   --radius-sm:8px;
-  --shadow:  0 24px 64px rgba(0,0,0,0.6);
-  --glow:    0 0 20px rgba(0,229,200,0.15);
+  --shadow:  0 24px 64px rgba(0,0,0,0.7);
+  --glow:    0 0 20px rgba(230,57,70,0.2);
 }
 
 body {
@@ -73,7 +73,7 @@ body {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   border-radius: 9px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 16px rgba(0,229,200,0.3);
+  box-shadow: 0 0 16px rgba(230,57,70,0.35);
 }
 
 .logo-icon svg { width: 18px; height: 18px; }
@@ -184,7 +184,7 @@ body {
   transition: background .2s;
   border: 1px solid var(--border);
 }
-.switch input:checked + .switch-track { background: var(--accent); border-color: var(--accent); }
+.switch input:checked + .switch-track { background: linear-gradient(90deg, var(--accent), var(--accent2)); border-color: transparent; }
 .switch-track::after {
   content: '';
   position: absolute; top: 2px; left: 2px;
@@ -348,7 +348,7 @@ body {
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 24px rgba(0,229,200,0.3);
+  box-shadow: 0 0 24px rgba(230,57,70,0.35);
 }
 
 .about-logo-icon svg { width: 28px; height: 28px; }

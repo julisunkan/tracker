@@ -8,15 +8,15 @@
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --accent: #00e5c8;
-    --accent2: #00b5ff;
-    --bg: #0d0f14;
-    --surface: #141720;
-    --surface2: #1c2030;
-    --border: rgba(255,255,255,0.07);
-    --text: #e8ecf4;
-    --text-dim: #7a869e;
-    --text-muted: #4a5568;
+    --accent: #e63946;
+    --accent2: #2b6cb0;
+    --bg: #1a0e08;
+    --surface: #231408;
+    --surface2: #2e1a0e;
+    --border: rgba(246,201,14,0.09);
+    --text: #f5e6d3;
+    --text-dim: #b8896a;
+    --text-muted: #6b4c35;
   }
   body {
     font-family: 'Syne', sans-serif;
@@ -38,7 +38,7 @@
     background: linear-gradient(135deg, var(--accent), var(--accent2));
     border-radius: 18px;
     display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 0 32px rgba(0,229,200,0.35);
+    box-shadow: 0 0 32px rgba(230,57,70,0.4);
     margin: 0 auto 20px;
   }
   .logo-icon svg { width: 34px; height: 34px; }
@@ -62,7 +62,7 @@
     width: 220px;
   }
   .card:hover {
-    border-color: rgba(0,229,200,0.4);
+    border-color: rgba(230,57,70,0.4);
     background: var(--surface2);
     transform: translateY(-3px);
     box-shadow: 0 12px 32px rgba(0,0,0,0.5);
@@ -72,8 +72,8 @@
   .card-desc { font-size: 12px; color: var(--text-muted); font-family: 'DM Mono', monospace; }
   .badge {
     display: inline-block;
-    background: rgba(0,229,200,0.1);
-    border: 1px solid rgba(0,229,200,0.25);
+    background: rgba(230,57,70,0.12);
+    border: 1px solid rgba(230,57,70,0.3);
     color: var(--accent);
     font-family: 'DM Mono', monospace;
     font-size: 11px;
