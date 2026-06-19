@@ -19,7 +19,7 @@
       "32": "icons/icon32.png",
       "48": "icons/icon48.png"
     },
-    "default_title": "AdBlock Pro"
+    "default_title": "Web Trackers Blocker"
   },
   "options_ui": {
     "page": "options.html",
